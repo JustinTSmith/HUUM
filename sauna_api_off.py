@@ -1,9 +1,17 @@
-import requests
+"""CLI helper to stop the HUUM sauna."""
+from __future__ import annotations
 
-url = 'https://api.huum.eu/action/home/stop'
-#enter your username and password from app
-usern = 'justintsmith@gmail.com'
-passw = 'hy6Dr.Jm8391'
-x = requests.post(url, auth=(usern,passw))
-print(x.json())
+from huum_client import HuumClient, HuumAuthenticationError
 
+
+def main() -> None:
+    client = HuumClient.from_env()
+    response = client.stop_sauna()
+    print(response)
+
+
+if __name__ == "__main__":  # pragma: no cover - CLI entry point
+    try:
+        main()
+    except HuumAuthenticationError as exc:
+        raise SystemExit(str(exc))
